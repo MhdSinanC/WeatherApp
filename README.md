@@ -20,8 +20,9 @@ This is a basic weather application built using HTML, CSS, and JavaScript, which
 
 1. **Clone the Repository**
    To get started, clone this repository to your local machine.
-
+```bash
    git clone https://github.com/yourusername/weather-app.git
+```
 
 2. **Open the Project in Your Browser**
    After cloning the project, simply open the `index.html` file in your browser to start using the app.
