@@ -46,17 +46,26 @@ function displayWeatherInfo(data) {
     const {
         name: city,
         main: { temp, humidity },
-        weather: [{ description, id }],
+        weather: [{ description, id, icon}],
         dt, timezone } = data;
 
     // Calculate local time by adjusting UTC with timezone offset
     const calcTimeZone = (dt + timezone) * 1000;    // convert to milliseconds
-    const localTime = new Date(calcTimeZone).toLocaleString('en-US', { timeZone: 'UTC', year: 'numeric', month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: true });
+    const options = {
+        timeZone: 'UTC',
+        year: 'numeric',
+        month: 'long',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+    }
+    const localTime = new Date(calcTimeZone).toLocaleString('en-US', options);
 
-     // Clear previous results and show card
+    // Clear previous results and show card
     card.textContent = '';
     card.style.display = 'flex';
-    
+
     // Create new elements to display weather info
     const cityDisplay = document.createElement('h1');
     const tempDisplay = document.createElement('p');
@@ -70,7 +79,7 @@ function displayWeatherInfo(data) {
     tempDisplay.textContent = `${(temp - 273.15).toFixed(1)}°C`;
     humiDisplay.textContent = `Humidity: ${humidity}%`;
     descDisplay.textContent = description;
-    weatherIcon.src = getWeatherIcon(id);      //Function return it's proper weather icon based on id
+    weatherIcon.src = getWeatherIcon(id, icon);      //Function return it's proper weather icon based on id
     reportTime.textContent = `Reported on: ${localTime}`;
 
     // Add classes for styling (from your CSS)
@@ -91,35 +100,35 @@ function displayWeatherInfo(data) {
 
 
 // Function to return the appropriate weather icon based on weather ID
-function getWeatherIcon(weatherId) {
+function getWeatherIcon(weatherId, icon) {
 
     switch (true) {
         case (weatherId >= 200 && weatherId < 300):
-            return `https://openweathermap.org/img/wn/11d@2x.png`;
+            return `https://openweathermap.org/img/wn/${icon}@2x.png`;
 
         case (weatherId >= 300 && weatherId < 400 || weatherId >= 520 && weatherId < 600):
-            return `https://openweathermap.org/img/wn/09d@2x.png`;
+            return `https://openweathermap.org/img/wn/${icon}@2x.png`;
 
         case (weatherId >= 500 && weatherId < 505):
-            return `https://openweathermap.org/img/wn/10d@2x.png`;
+            return `https://openweathermap.org/img/wn/${icon}@2x.png`;
 
         case (weatherId === 511 || weatherId >= 600 && weatherId < 700):
-            return `https://openweathermap.org/img/wn/13d@2x.png`;
+            return `https://openweathermap.org/img/wn/${icon}@2x.png`;
 
         case (weatherId >= 701 && weatherId < 800):
-            return `https://openweathermap.org/img/wn/50d@2x.png`;
+            return `https://openweathermap.org/img/wn/${icon}@2x.png`;
 
         case (weatherId === 800):
-            return `https://openweathermap.org/img/wn/01d@2x.png`;
+            return `https://openweathermap.org/img/wn/${icon}@2x.png`;
 
         case (weatherId === 801):
-            return `https://openweathermap.org/img/wn/02d@2x.png`;
+            return `https://openweathermap.org/img/wn${icon}@2x.png`;
 
         case (weatherId === 802):
-            return `https://openweathermap.org/img/wn/03d@2x.png`;
+            return `https://openweathermap.org/img/wn/${icon}@2x.png`;
 
         case (weatherId === 803 || weatherId === 804):
-            return `https://openweathermap.org/img/wn/04d@2x.png`;
+            return `https://openweathermap.org/img/wn/${icon}@2x.png`;
     }
 
 }
